@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jogadores</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+    body {
+      background-color: black;
+      margin: 0;
+      font-family: "Roboto", sans-serif;
+    }
+
+    * {
+      color: white;
+    }
+
+    .jogadores {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .eu-ela {
+      width: 150px;
+      height: 150px;
+      border-radius: 15%;
+      object-fit: cover;
+    }
+
+    h1 {
+      font-size: 22px;
+    }
+
+    .cards {
+      width: 280px;
+      text-align: center;
+      background: linear-gradient(135deg, #1f1f1f, #2d2d2d);
+      border: 1px solid #444;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      padding: 15px;
+    }
+
+    p {
+      color: #ccc;
+      font-size: 0.95em;
+      line-height: 1.4;
+    }
+
+    button {
+      padding: 10px;
+      width: 150px;
+      background-color: #81888f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin: 10px auto;
+      display: block;
+    }
+
+    button:hover {
+      background-color: #00aaff;
+    }
+
+    /* Estilo do Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      position: relative;
+      background-color: #222;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 90%;
+      max-height: 90%;
+      color: white;
+      text-align: center;
+    }
+
+    .modal-content img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+      cursor: pointer;
+      color: red;
+    }
+
+    #opcoes {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    #opcoes button {
+      padding: 8px 16px;
+      background-color: #444;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #opcoes button:hover:not(:disabled) {
+      background-color: #00aaff;
+    }
+
+    #opcoes button:disabled {
+      cursor: default;
+      opacity: 0.6;
+    }
+
+    #mensagemResposta {
+      margin-top: 10px;
+      text-align: center;
+      font-weight: bold;
+      color: #fff;
+      min-height: 1.5em;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="jogadores">
+      <div class="cards">
+        <h1>Dudu_Basseto</h1>
+        <img src="dudu.jpg" alt="" class="eu-ela" />
+        <p>Dudu: O mais lindo e o melhor no Clash.</p>
+        <button onclick="abrirModal('meudeck.jpg')">Melhor Deck</button>
+      </div>
+
+      <div class="cards">
+        <h1>Biancaaxts :)</h1>
+        <img src="Bia.jpeg" alt="" class="eu-ela" />
+        <p>Bia: Bonita mas não igual o dudu e pata do dudu no Clash.</p>
+        <button onclick="abrirModal('deckdela.jpg')">Pior Deck</button>
+      </div>
+    </div>
+
+    <!-- Botão para histórico -->
+    <button onclick="abrirModal('historico.jpg')">Histórico de batatha</button>
+    <button onclick="abrirQuiz()">Quiz</button>
+
+    <div id="modalQuiz" class="modal" onclick="fecharQuiz()">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close" onclick="fecharQuiz()">&times;</span>
+        <div id="quizContainer">
+          <h2 id="pergunta"></h2>
+          <div id="opcoes"></div>
+          <div id="mensagemResposta"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="meuModal" class="modal" onclick="fecharModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <span class="close" onclick="fecharModal()">&times;</span>
+      <img id="imagemDeck" src="" alt="Imagem do modal">
+    </div>
+  </div>
+
+  <script>
+    function abrirModal(caminhoImagem) {
+      const modal = document.getElementById("meuModal");
+      const imagem = document.getElementById("imagemDeck");
+      imagem.src = caminhoImagem;
+      modal.style.display = "flex";
+    }
+
+    function fecharModal() {
+      const modal = document.getElementById("meuModal");
+      modal.style.display = "none";
+    }
+
+    const perguntas = [
+      {
+        pergunta: "Quem é o melhor no Clash?",
+        opcoes: ["Dudu", "Bia"],
+        resposta: 0,
+        mensagemCerta: "Lógico que é eu! 🧠",
+        mensagemErrada: "Sério que você não sabe? Dudu é o rei do Clash!"
+      },
+      {
+        pergunta: "Quem é o mais bonito?",
+        opcoes: ["Dudu", "Bia"],
+        resposta: 1,
+        mensagemCerta: "Nessa eu perdi!",
+        mensagemErrada: "Não, mas dou pro gasto né"
+      },
+      {
+        pergunta: "Quem é melhor no vôlei?",
+        opcoes: ["Dudu", "Bia"],
+        resposta: 0,
+        mensagemCerta: "Lógico que é eu!",
+        mensagemErrada: "Te amasso fia 😅"
+      },
+      {
+        pergunta: "Melhor deck?",
+        opcoes: ["Dudu", "Bia"],
+        resposta: 0,
+        mensagemCerta: "Sempre dou 3 coroas!",
+        mensagemErrada: "Deck de bandida lidar haha."
+      }
+    ];
+
+    let perguntaAtual = 0;
+
+    function abrirQuiz() {
+      document.getElementById("modalQuiz").style.display = "flex";
+      mostrarPergunta();
+    }
+
+    function fecharQuiz() {
+      document.getElementById("modalQuiz").style.display = "none";
+      perguntaAtual = 0;
+      document.getElementById("quizContainer").innerHTML = `
+        <h2 id="pergunta"></h2>
+        <div id="opcoes"></div>
+        <div id="mensagemResposta"></div>
+      `;
+    }
+
+    function mostrarPergunta() {
+      const p = perguntas[perguntaAtual];
+      document.getElementById("pergunta").innerText = p.pergunta;
+
+      const opcoesDiv = document.getElementById("opcoes");
+      const mensagem = document.getElementById("mensagemResposta");
+      mensagem.innerText = "";
+      opcoesDiv.innerHTML = "";
+
+      p.opcoes.forEach((opcao, index) => {
+        const btn = document.createElement("button");
+        btn.innerText = opcao;
+        btn.onclick = () => verificarResposta(index, btn);
+        btn.disabled = false;
+        btn.style.backgroundColor = "#444";
+        opcoesDiv.appendChild(btn);
+      });
+    }
+
+    function verificarResposta(indexEscolhido, botao) {
+      const p = perguntas[perguntaAtual];
+      const mensagem = document.getElementById("mensagemResposta");
+
+      if (indexEscolhido === p.resposta) {
+        botao.style.backgroundColor = "#4CAF50";
+        mensagem.innerText = p.mensagemCerta;
+
+        // desabilita todos os botões para evitar cliques extras
+        const todosBotoes = document.querySelectorAll("#opcoes button");
+        todosBotoes.forEach(btn => btn.disabled = true);
+
+        setTimeout(() => {
+          perguntaAtual++;
+          if (perguntaAtual < perguntas.length) {
+            mostrarPergunta();
+          } else {
+            document.getElementById("quizContainer").innerHTML = `
+             
+              <p>Oii, isso é só uma maneira para te descontrair kkkk, queria mudar um pouco, sei la se consegui tirar um sorriso seu já sai no lucro, boa sorte amanha na prova gatinha</p>
+              <button onclick="fecharQuiz()">Fechar</button>
+            `;
+          }
+        }, 2000);
+
+      } else {
+        botao.style.backgroundColor = "#f44336";
+        mensagem.innerText = p.mensagemErrada;
+        // NÃO desabilita os botões, para o usuário tentar novamente
+      }
+    }
+  </script>
+</body>
+</html>
